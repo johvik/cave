@@ -9,7 +9,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
 
-dotenv.load({ path: '.env.example' });
+dotenv.load();
 
 const homeController = require('./controllers/home');
 const apiController = require('./controllers/api');
@@ -22,7 +22,7 @@ mongoose.connection.on('error', () => {
   process.exit(1);
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(compression());

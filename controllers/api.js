@@ -23,7 +23,6 @@ exports.getSensor = (req, res) => {
 };
 
 exports.postSensor = (req, res) => {
-  console.log(req.body);
   req.checkBody('key').notEmpty().isHexadecimal();
   const errors = req.validationErrors();
   if (errors) {
