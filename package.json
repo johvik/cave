@@ -2,17 +2,30 @@
   "name": "cave",
   "version": "1.0.0",
   "description": "cave",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "async": "^2.0.0-rc.6",
+    "body-parser": "^1.15.1",
+    "compression": "^1.6.2",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "express-validator": "^2.20.7",
+    "mongoose": "^4.5.0",
+    "validator": "^5.4.0"
+  },
+  "devDependencies": {},
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/johvik/cave.git"
+    "url": "git+https://github.com/johvik/cave.git"
   },
   "author": "johvik",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/johvik/cave/issues"
   },
-  "homepage": "https://github.com/johvik/cave"
+  "homepage": "https://github.com/johvik/cave#readme"
 }
