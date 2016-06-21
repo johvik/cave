@@ -4,11 +4,6 @@ const app = require('../app.js');
 const Sensor = require('../models/Sensor');
 const mongoose = require('mongoose');
 
-function addSensorData(done) {
-  new Sensor({_id: mongoose.Types.ObjectId('000000000000000000000000'), key: '1234567890abcdef', sensor: 'temperature', name: 'Some name',
-                 samples: [{value: 1.1, time: new Date(50)}, {value: -5.0, time: new Date(10000)}]}).save(done);
-}
-
 function setSensorData(done) {
   Sensor.remove({}, () => {
     new Sensor({_id: mongoose.Types.ObjectId('000000000000000000000000'), key: '1234567890abcdef', sensor: 'temperature', name: 'Some name',
