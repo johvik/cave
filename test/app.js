@@ -63,6 +63,14 @@ describe('POST /api/sensor', () => {
     request(app).post('/api/sensor').expect(400, done);
   });
 
+  it('should not accept a non-alphanumeric sensor', (done) => {
+    request(app).post('/api/sensor').send('key=0').send('sensor_0=10.0').expect(400, done);
+  });
+
+  it('should not accept a non-decimal value', (done) => {
+    request(app).post('/api/sensor').send('key=0').send('temperature=string').expect(400, done);
+  });
+
   it('should accept no data', (done) => {
     request(app).post('/api/sensor').send('key=0').expect(200, done);
   });
