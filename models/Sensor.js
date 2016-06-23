@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const sampleSchema = mongoose.Schema({
   _id: false,
-  value: Number,
+  value: { type: Number, required: true },
   time: { type: Date, default: Date.now }
 });
 
 const sensorSchema = mongoose.Schema({
-  key: String,
+  key: { type: String, required: true },
   name: { type: String, default: 'Unknown' },
-  sensor: String,
+  sensor: { type: String, required: true} ,
   samples: [sampleSchema]
 });
 
