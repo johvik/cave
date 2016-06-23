@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 app.get('/', homeController.index);
 
-app.get('/api/sensors', apiController.getSensors);
+app.get('/api/sensor', apiController.getSensors);
 app.get('/api/sensor/:id', apiController.getSensor);
 
 app.post('/api/sensor', apiController.postSensor);

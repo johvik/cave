@@ -18,20 +18,20 @@ describe('GET /', () => {
   });
 });
 
-describe('GET /api/sensors', () => {
+describe('GET /api/sensor', () => {
   before((done) => {
     Sensor.remove({}, done);
   });
 
   it('should be empty', (done) => {
-    request(app).get('/api/sensors').expect('Content-Type', /json/).expect(200, [], done);
+    request(app).get('/api/sensor').expect('Content-Type', /json/).expect(200, [], done);
   });
 
   describe('with data', () => {
     before(setSensorData);
 
     it('should be one', (done) => {
-      request(app).get('/api/sensors').expect('Content-Type', /json/).expect(200, [{_id: '000000000000000000000000', name: 'Some name', sensor: 'temperature'}], done);
+      request(app).get('/api/sensor').expect('Content-Type', /json/).expect(200, [{_id: '000000000000000000000000', name: 'Some name', sensor: 'temperature'}], done);
     });
   });
 });
