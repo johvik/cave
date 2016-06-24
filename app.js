@@ -8,10 +8,10 @@ const dotenv = require('dotenv');
 const path = require('path');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
+const ms = require('ms');
 
 dotenv.load();
 
-const homeController = require('./controllers/home');
 const apiController = require('./controllers/api');
 
 const app = express();
@@ -22,15 +22,14 @@ mongoose.connection.on('error', () => {
   process.exit(1);
 });
 
+const maxAge = ms('1 day');
+const root = path.join(__dirname, 'public');
+
 app.set('port', process.env.PORT);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 app.use(compression());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-
-app.get('/', homeController.index);
+app.use(express.static(root, { maxAge: maxAge }));
 
 app.get('/api/sensor', apiController.getSensors);
 app.get('/api/sensor/:id', apiController.getSensor);

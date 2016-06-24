@@ -1,7 +1,7 @@
 'use strict';
 const Sensor = require('../models/Sensor');
 const validator = require('validator');
-const async = require("async");
+const async = require('async');
 
 exports.getSensors = (req, res) => {
   const query = Sensor.find().select('_id name sensor');
