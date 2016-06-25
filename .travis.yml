@@ -5,3 +5,4 @@ services:
   - mongodb
 before_script:
   - touch .env
+  - npm run build
