@@ -22,7 +22,7 @@ mongoose.connection.on('error', () => {
   process.exit(1);
 });
 
-const maxAge = ms('1 day');
+const maxAge = ms('1h'); /* TODO: Update */
 const root = path.join(__dirname, 'public');
 
 app.set('port', process.env.PORT);

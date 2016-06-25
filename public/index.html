@@ -16,9 +16,27 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfill -->
+    <script src="/js/lib/shim.min.js"></script>
+
+    <script src="/js/lib/zone.min.js"></script>
+    <script src="/js/lib/Reflect.js"></script>
+
+    <script src="/js/lib/Rx.umd.min.js"></script>
+    <script src="/js/lib/core.umd.min.js"></script>
+    <script src="/js/lib/common.umd.min.js"></script>
+    <script src="/js/lib/compiler.umd.min.js"></script>
+    <script src="/js/lib/platform-browser.umd.min.js"></script>
+    <script src="/js/lib/platform-browser-dynamic.umd.min.js"></script>
+
+    <!-- 2. Load our 'modules' -->
+    <script src="/app/app.component.js"></script>
+    <script src="/app/main.js"></script>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <my-app>Loading...</my-app>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
