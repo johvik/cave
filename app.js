@@ -22,7 +22,7 @@ mongoose.connection.on('error', () => {
   process.exit(1);
 });
 
-const maxAge = ms('1h'); /* TODO: Update */
+const maxAge = ms('1 min'); /* TODO: Update */
 const root = path.join(__dirname, 'dist');
 
 app.set('port', process.env.PORT);
@@ -35,6 +35,15 @@ app.get('/api/sensor', apiController.getSensors);
 app.get('/api/sensor/:id', apiController.getSensor);
 
 app.post('/api/sensor', apiController.postSensor);
+
+/* Default routes */
+app.all('/api/*', (req, res) => {
+  res.sendStatus(404);
+});
+
+app.all('/*', (req, res) => {
+  res.sendFile('index.html', { maxAge: maxAge, root: root });
+});
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
