@@ -88,3 +88,17 @@ describe('POST /api/sensor', () => {
     });
   });
 });
+
+describe('GET additional /', () => {
+  it('GET /home should return 200 OK', (done) => {
+    request(app).get('/home').expect(200, done);
+  });
+
+  it('GET /sensors should return 200 OK', (done) => {
+    request(app).get('/sensors').expect(200, done);
+  });
+
+  it('GET /whatever should return 200 OK', (done) => {
+    request(app).get('/whatever').expect(404, done);
+  });
+});
