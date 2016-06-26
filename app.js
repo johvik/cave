@@ -36,14 +36,13 @@ app.get('/api/sensor/:id', apiController.getSensor);
 
 app.post('/api/sensor', apiController.postSensor);
 
-/* Default routes */
-app.all('/api/*', (req, res) => {
-  res.sendStatus(404);
-});
-
-app.all('/*', (req, res) => {
+/* Angular routes */
+const getIndex = (req, res) => {
   res.sendFile('index.html', { maxAge: maxAge, root: root });
-});
+};
+
+app.get('/home', getIndex);
+app.get('/sensors', getIndex);
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
