@@ -1,3 +1,9 @@
 <div class="container">
   <h1>Sensors</h1>
+  <div class="error" *ngIf="error">{{error}}</div>
+  <ul>
+    <li *ngFor="let sensor of sensors">
+      <span>{{sensor._id}} {{sensor.sensor}} {{sensor.name}}</span>
+    </li>
+  </ul>
 </div>
