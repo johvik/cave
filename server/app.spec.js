@@ -1,8 +1,8 @@
 require('./test.js');
 const request = require('supertest');
 const expect = require('chai').expect;
-const app = require('../app.js');
-const Sensor = require('../models/Sensor');
+const app = require('./app.js');
+const Sensor = require('./models/Sensor');
 const mongoose = require('mongoose');
 
 function setSensorData(done) {

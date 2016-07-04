@@ -1,6 +1,6 @@
-require('./test.js');
+require('../test.js');
 const expect = require('chai').expect;
-const Sensor = require('../models/Sensor');
+const Sensor = require('./Sensor');
 
 describe('Sensor Model', () => {
   before((done) => {

@@ -23,7 +23,7 @@ mongoose.connection.on('error', () => {
 });
 
 const maxAge = ms('1 min'); /* TODO: Update */
-const root = path.join(__dirname, 'dist');
+const root = path.join(__dirname, '..', 'dist');
 
 app.set('port', process.env.PORT);
 app.use(compression());
