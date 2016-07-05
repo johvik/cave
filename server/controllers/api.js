@@ -1,5 +1,5 @@
 'use strict';
-const Sensor = require('../models/Sensor');
+const Sensor = require('../models/sensor');
 const validator = require('validator');
 const async = require('async');
 
