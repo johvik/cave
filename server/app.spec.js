@@ -31,7 +31,8 @@ describe('GET /api/sensor', () => {
     before(setSensorData);
 
     it('should be one', (done) => {
-      request(app).get('/api/sensor').expect('Content-Type', /json/).expect(200, [{_id: '000000000000000000000000', name: 'Some name', sensor: 'temperature'}], done);
+      request(app).get('/api/sensor').expect('Content-Type', /json/).expect(200,
+        [{_id: '000000000000000000000000', name: 'Some name', sensor: 'temperature'}], done);
     });
   });
 });
@@ -44,7 +45,9 @@ describe('GET /api/sensor/:id', () => {
   });
 
   it('should find sensor', (done) => {
-    request(app).get('/api/sensor/000000000000000000000000').expect(200, [{value: 1.1, time: new Date(50).toISOString()}, {value: -5, time: new Date(10000).toISOString()}], done);
+    request(app).get('/api/sensor/000000000000000000000000').expect(200,
+      {_id: '000000000000000000000000', name: 'Some name', sensor: 'temperature',
+       samples: [{value: 1.1, time: new Date(50).toISOString()}, {value: -5, time: new Date(10000).toISOString()}]}, done);
   });
 });
 

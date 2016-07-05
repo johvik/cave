@@ -14,11 +14,12 @@ exports.getSensors = (req, res) => {
 };
 
 exports.getSensor = (req, res) => {
-  Sensor.findOne({_id: req.params.id}, (err, sensor) => {
-    if (err || !sensor) {
+  const query = Sensor.findOne({_id: req.params.id}).select('_id name sensor samples');
+  query.exec((err, sensor) => {
+    if (err) {
       return res.sendStatus(400);
     }
-    return res.json(sensor.samples);
+    return res.json(sensor);
   });
 };
 
