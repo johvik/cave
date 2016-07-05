@@ -1,5 +1,5 @@
 <div class="container">
-  <alert *ngIf="error" [type]="'danger'"><strong>Oh snap!</strong> {{error}}</alert>
+  <div class="alert alert-danger" role="alert" *ngIf="error"><strong>Oh snap!</strong> {{error}}</div>
   <div *ngIf="sensor">
     <h1>{{sensor.name}} - {{sensor.sensor}}</h1>
   </div>

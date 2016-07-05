@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Sensors</h1>
-  <alert *ngIf="error" [type]="'danger'"><strong>Oh snap!</strong> {{error}}</alert>
+  <div class="alert alert-danger" role="alert" *ngIf="error"><strong>Oh snap!</strong> {{error}}</div>
   <ul class="list-unstyled">
     <li *ngFor="let sensor of sensors">
       <a [routerLink]="['/sensors', sensor._id]">{{sensor.name}} - {{sensor.sensor}}</a>

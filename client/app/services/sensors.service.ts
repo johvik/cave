@@ -17,7 +17,7 @@ export class SensorsService {
       .then(response => response.json())
       .catch((error) => {
         console.error('An error occurred', error);
-        return Promise.reject('Failed to load sensors');
+        return Promise.reject('Failed to load sensors.');
       });
   }
 
@@ -27,7 +27,7 @@ export class SensorsService {
       .then(response => response.json())
       .catch((error) => {
         console.error('An error occurred', error);
-        return Promise.reject('Failed to load sensor');
+        return Promise.reject('Failed to load sensor.');
       });
   }
 }
