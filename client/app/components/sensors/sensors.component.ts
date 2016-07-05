@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { Sensor } from '../../services/sensor';
 import { SensorsService } from '../../services/sensors.service';
@@ -6,6 +7,7 @@ import { SensorsService } from '../../services/sensors.service';
 @Component({
   selector: 'sensors',
   template: require('./sensors.component.html'),
+  directives: [ROUTER_DIRECTIVES],
   providers: [SensorsService]
 })
 
@@ -15,14 +17,10 @@ export class SensorsComponent implements OnInit {
 
   constructor(private sensorsService: SensorsService) { }
 
-  getSensors() {
+  ngOnInit() {
     this.sensorsService
       .getSensors()
       .then(sensors => this.sensors = sensors)
       .catch(error => this.error = error);
-  }
-
-  ngOnInit() {
-    this.getSensors();
   }
 }

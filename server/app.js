@@ -50,6 +50,7 @@ const getIndex = (req, res) => {
 
 app.get('/home', getIndex);
 app.get('/sensors', getIndex);
+app.get('/sensors/:id', getIndex);
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));

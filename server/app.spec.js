@@ -126,6 +126,10 @@ describe('GET additional /', () => {
     request(app).get('/sensors').expect(200, done);
   });
 
+  it('GET /sensors/:id should return 200 OK', (done) => {
+    request(app).get('/sensors/123').expect(200, done);
+  });
+
   it('GET /whatever should return 200 OK', (done) => {
     request(app).get('/whatever').expect(404, done);
   });

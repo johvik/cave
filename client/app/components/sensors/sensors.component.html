@@ -1,9 +1,9 @@
 <div class="container">
   <h1>Sensors</h1>
   <div class="error" *ngIf="error">{{error}}</div>
-  <ul>
+  <ul class="list-unstyled">
     <li *ngFor="let sensor of sensors">
-      <span>{{sensor._id}} {{sensor.sensor}} {{sensor.name}}</span>
+      <a [routerLink]="['/sensors', sensor._id]">{{sensor.name}} - {{sensor.sensor}}</a>
     </li>
   </ul>
 </div>
