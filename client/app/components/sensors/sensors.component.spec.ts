@@ -27,7 +27,7 @@ describe('Sensors', () => {
     SensorsComponent,
     provide(SensorsService, { useClass: MockSensorsService })
   ]);
-  it ('should work', inject([SensorsComponent], (sensors: SensorsComponent) => {
+  it('should work', inject([SensorsComponent], (sensors: SensorsComponent) => {
     // Add real test here
     expect(2).toBe(2);
   }));

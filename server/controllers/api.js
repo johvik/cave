@@ -14,7 +14,9 @@ exports.getSensors = (req, res) => {
 };
 
 exports.getSensor = (req, res) => {
-  const query = Sensor.findOne({_id: req.params.id}).select('_id name sensor samples');
+  const query = Sensor.findOne({
+    _id: req.params.id
+  }).select('_id name sensor samples');
   query.exec((err, sensor) => {
     if (err) {
       return res.sendStatus(400);
@@ -27,7 +29,7 @@ exports.postSensor = (req, res) => {
   req.checkBody('key').notEmpty().isHexadecimal();
   const errors = req.validationErrors();
   if (errors) {
-      return res.sendStatus(400);
+    return res.sendStatus(400);
   }
 
   const key = req.body.key;
@@ -37,7 +39,18 @@ exports.postSensor = (req, res) => {
     if (!validator.isAlphanumeric(sensor) || !validator.isDecimal(value)) {
       callback('Bad input');
     } else {
-      Sensor.update({key: key, sensor: sensor}, {$push: {samples: {value: value}}}, {upsert: true}, callback);
+      Sensor.update({
+        key: key,
+        sensor: sensor
+      }, {
+        $push: {
+          samples: {
+            value: value
+          }
+        }
+      }, {
+        upsert: true
+      }, callback);
     }
   }, (err) => {
     if (err) {

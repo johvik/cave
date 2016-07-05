@@ -27,9 +27,13 @@ const root = path.join(__dirname, '..', 'dist');
 
 app.set('port', process.env.PORT);
 app.use(compression());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(expressValidator());
-app.use(express.static(root, { maxAge: maxAge }));
+app.use(express.static(root, {
+  maxAge: maxAge
+}));
 
 app.get('/api/sensor', apiController.getSensors);
 app.get('/api/sensor/:id', apiController.getSensor);
@@ -38,7 +42,10 @@ app.post('/api/sensor', apiController.postSensor);
 
 /* Angular routes */
 const getIndex = (req, res) => {
-  res.sendFile('index.html', { maxAge: maxAge, root: root });
+  res.sendFile('index.html', {
+    maxAge: maxAge,
+    root: root
+  });
 };
 
 app.get('/home', getIndex);

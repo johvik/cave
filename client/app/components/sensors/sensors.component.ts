@@ -17,9 +17,9 @@ export class SensorsComponent implements OnInit {
 
   getSensors() {
     this.sensorsService
-        .getSensors()
-        .then(sensors => this.sensors = sensors)
-        .catch(error => this.error = error);
+      .getSensors()
+      .then(sensors => this.sensors = sensors)
+      .catch(error => this.error = error);
   }
 
   ngOnInit() {

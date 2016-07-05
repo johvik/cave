@@ -10,7 +10,7 @@ describe('Home', () => {
   beforeEachProviders(() => [
     HomeComponent
   ]);
-  it ('should work', inject([HomeComponent], (home: HomeComponent) => {
+  it('should work', inject([HomeComponent], (home: HomeComponent) => {
     // Add real test here
     expect(2).toBe(2);
   }));

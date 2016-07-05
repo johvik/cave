@@ -8,7 +8,10 @@ describe('Sensor Model', () => {
   });
 
   it('should create a new sensor', (done) => {
-    new Sensor({key: 'abc', sensor: 'humidity'}).save((err, sensor) => {
+    new Sensor({
+      key: 'abc',
+      sensor: 'humidity'
+    }).save((err, sensor) => {
       expect(err).to.be.null;
       expect(sensor).to.have.property('_id');
       expect(sensor).to.have.property('key', 'abc');
@@ -21,7 +24,13 @@ describe('Sensor Model', () => {
   });
 
   it('should create a new sensor with a sample', (done) => {
-    new Sensor({key: 'abc', sensor: 'temperature', samples: [{ value: 42.0 }]}).save((err, sensor) => {
+    new Sensor({
+      key: 'abc',
+      sensor: 'temperature',
+      samples: [{
+        value: 42.0
+      }]
+    }).save((err, sensor) => {
       expect(err).to.be.null;
       expect(sensor).to.have.property('_id');
       expect(sensor).to.have.property('key', 'abc');
@@ -37,7 +46,10 @@ describe('Sensor Model', () => {
   });
 
   it('should not create a duplicate key/sensor pair', (done) => {
-    new Sensor({key: 'abc', sensor: 'humidity'}).save((err, sensor) => {
+    new Sensor({
+      key: 'abc',
+      sensor: 'humidity'
+    }).save((err, sensor) => {
       expect(err).to.exist;
       expect(err.code).to.equal(11000);
       expect(sensor).to.not.exist;
@@ -46,7 +58,9 @@ describe('Sensor Model', () => {
   });
 
   it('should not create a new sensor without key', (done) => {
-    new Sensor({sensor: 'humidity'}).save((err, sensor) => {
+    new Sensor({
+      sensor: 'humidity'
+    }).save((err, sensor) => {
       expect(err).to.exist;
       expect(err.errors.key.kind).to.equal('required');
       expect(sensor).to.not.exist;
@@ -55,7 +69,9 @@ describe('Sensor Model', () => {
   });
 
   it('should not create a new sensor without sensor', (done) => {
-    new Sensor({key: 'abc'}).save((err, sensor) => {
+    new Sensor({
+      key: 'abc'
+    }).save((err, sensor) => {
       expect(err).to.exist;
       expect(err.errors.sensor.kind).to.equal('required');
       expect(sensor).to.not.exist;
@@ -64,7 +80,11 @@ describe('Sensor Model', () => {
   });
 
   it('should create a new sensor without a sample value', (done) => {
-    new Sensor({key: 'abc', sensor: 'humidity', samples: [{}]}).save((err, sensor) => {
+    new Sensor({
+      key: 'abc',
+      sensor: 'humidity',
+      samples: [{}]
+    }).save((err, sensor) => {
       expect(err).to.exist;
       expect(err.errors['samples.0.value'].kind).to.equal('required');
       expect(sensor).to.not.exist;

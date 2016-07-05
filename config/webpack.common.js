@@ -15,30 +15,24 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'ts'
-      },
-      {
-        test: /\.html$/,
-        loader: 'raw'
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'file?name=assets/[name].[hash].[ext]'
-      },
-      {
-        test: /\.css$/,
-        exclude: helpers.root('client', 'app'),
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
-      },
-      {
-        test: /\.css$/,
-        include: helpers.root('client', 'app'),
-        loader: 'raw'
-      }
-    ]
+    loaders: [{
+      test: /\.ts$/,
+      loader: 'ts'
+    }, {
+      test: /\.html$/,
+      loader: 'raw'
+    }, {
+      test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+      loader: 'file?name=assets/[name].[hash].[ext]'
+    }, {
+      test: /\.css$/,
+      exclude: helpers.root('client', 'app'),
+      loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+    }, {
+      test: /\.css$/,
+      include: helpers.root('client', 'app'),
+      loader: 'raw'
+    }]
   },
 
   plugins: [

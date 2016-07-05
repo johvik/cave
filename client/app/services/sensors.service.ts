@@ -13,9 +13,9 @@ export class SensorsService {
 
   getSensors() {
     return this.http.get(this.sensorsUrl)
-               .toPromise()
-               .then(response => response.json())
-               .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
   }
 
   private handleError(error: any) {
