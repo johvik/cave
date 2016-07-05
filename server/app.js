@@ -48,7 +48,6 @@ const getIndex = (req, res) => {
   });
 };
 
-app.get('/home', getIndex);
 app.get('/sensors', getIndex);
 app.get('/sensors/:id', getIndex);
 
