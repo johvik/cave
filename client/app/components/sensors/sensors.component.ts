@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import { AlertComponent } from 'ng2-bootstrap';
 
 import { Sensor } from '../../services/sensor';
 import { SensorsService } from '../../services/sensors.service';
@@ -7,7 +8,7 @@ import { SensorsService } from '../../services/sensors.service';
 @Component({
   selector: 'sensors',
   template: require('./sensors.component.html'),
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, AlertComponent],
   providers: [SensorsService]
 })
 

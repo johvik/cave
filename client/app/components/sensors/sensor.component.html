@@ -1,6 +1,6 @@
 <div class="container">
+  <alert *ngIf="error" [type]="'danger'"><strong>Oh snap!</strong> {{error}}</alert>
   <div *ngIf="sensor">
     <h1>{{sensor.name}} - {{sensor.sensor}}</h1>
   </div>
-  <div class="error" *ngIf="error">{{error}}</div>
 </div>

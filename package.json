@@ -43,6 +43,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.5.3",
     "mocha-lcov-reporter": "^1.2.0",
+    "ng2-bootstrap": "^1.0.17",
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.7",
     "raw-loader": "^0.5.1",
