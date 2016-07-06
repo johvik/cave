@@ -18,7 +18,7 @@ exports.getSensor = (req, res) => {
     _id: req.params.id
   }).select('_id name sensor samples');
   query.exec((err, sensor) => {
-    if (err) {
+    if (err || !sensor) {
       return res.sendStatus(400);
     }
     return res.json(sensor);
