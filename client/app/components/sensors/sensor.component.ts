@@ -16,20 +16,7 @@ export class SensorComponent implements OnInit, OnDestroy {
   sensor: Sensor;
   error: any;
   private sub: any;
-  chartOptions: any = {
-    legend: {
-      display: false
-    },
-    responsive: true,
-    scales: {
-      xAxes: [{
-        type: 'time',
-        time: {
-          tooltipFormat: 'YYYY-MM-DD hh:mm'
-        }
-      }]
-    }
-  };
+  chartOptions: any = this.defaultChartOptions();
   chartType: string = 'line';
   chartData: any[];
 
@@ -63,5 +50,46 @@ export class SensorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  private defaultChartOptions() {
+    return {
+      legend: {
+        display: false
+      },
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            tooltipFormat: 'YYYY-MM-DD hh:mm'
+          }
+        }]
+      }
+    };
+  }
+
+  private updateTimeRange(duration: number) {
+    const now = new Date();
+    let newChartOptions = this.defaultChartOptions();
+    newChartOptions.scales.xAxes[0].time['min'] = new Date(now.getTime() - duration);
+    newChartOptions.scales.xAxes[0].time['max'] = now;
+    this.chartOptions = newChartOptions;
+  }
+
+  onLastDay() {
+    this.updateTimeRange(1000 * 60 * 60 * 24);
+  }
+
+  onLastWeek() {
+    this.updateTimeRange(1000 * 60 * 60 * 24 * 7);
+  }
+
+  onLastMonth() {
+    this.updateTimeRange(1000 * 60 * 60 * 24 * 30);
+  }
+
+  onAllTime() {
+    this.chartOptions = this.defaultChartOptions();
   }
 }
