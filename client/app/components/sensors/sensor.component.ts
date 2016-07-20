@@ -40,6 +40,9 @@ export class SensorComponent implements OnInit, OnDestroy {
             label: sensor.sensor,
             fill: false,
             lineTension: 0,
+            borderWidth: 1,
+            pointRadius: 0,
+            pointHitRadius: 2,
             data: xyData
           }];
           this.sensor = sensor
