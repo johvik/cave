@@ -4,25 +4,29 @@ const validator = require('validator');
 const async = require('async');
 
 exports.getSensors = (req, res) => {
-  const query = Sensor.find().select('_id name sensor');
-  query.exec((err, sensors) => {
-    if (err) {
-      return res.sendStatus(400);
-    }
-    return res.json(sensors);
-  });
+  Sensor.find()
+    .select('_id name sensor')
+    .lean()
+    .exec((err, sensors) => {
+      if (err) {
+        return res.sendStatus(400);
+      }
+      return res.json(sensors);
+    });
 };
 
 exports.getSensor = (req, res) => {
-  const query = Sensor.findOne({
-    _id: req.params.id
-  }).select('_id name sensor samples');
-  query.exec((err, sensor) => {
-    if (err || !sensor) {
-      return res.sendStatus(400);
-    }
-    return res.json(sensor);
-  });
+  Sensor.findOne({
+      _id: req.params.id
+    })
+    .select('_id name sensor samples')
+    .lean()
+    .exec((err, sensor) => {
+      if (err || !sensor) {
+        return res.sendStatus(400);
+      }
+      return res.json(sensor);
+    });
 };
 
 exports.postSensor = (req, res) => {
