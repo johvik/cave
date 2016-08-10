@@ -49,7 +49,10 @@ exports.postSensor = (req, res) => {
       }, {
         $push: {
           samples: {
-            value: value
+            $each: [{
+              value: value
+            }],
+            $slice: -60 * 24 * 30 // One sample / min for one month
           }
         }
       }, {
