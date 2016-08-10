@@ -32,7 +32,7 @@ export class SensorComponent implements OnInit, OnDestroy {
           // Convert to x/y data
           const xyData = sensor.samples.map((sample: Sample) => {
             return {
-              x: sample.time,
+              x: new Date(sample.time).getTime(),
               y: sample.value
             }
           });
