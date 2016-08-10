@@ -16,7 +16,20 @@ export class SensorComponent implements OnInit, OnDestroy {
   sensor: Sensor;
   error: any;
   private sub: any;
-  chartOptions: any = this.defaultChartOptions();
+  chartOptions: any = {
+    legend: {
+      display: false
+    },
+    responsive: true,
+    scales: {
+      xAxes: [{
+        type: 'time',
+        time: {
+          tooltipFormat: 'YYYY-MM-DD hh:mm'
+        }
+      }]
+    }
+  };
   chartType: string = 'line';
   chartData: any[];
 
@@ -29,23 +42,8 @@ export class SensorComponent implements OnInit, OnDestroy {
       let id = params['id'];
       this.sensorsService.getSensor(id)
         .then(sensor => {
-          // Convert to x/y data
-          const xyData = sensor.samples.map((sample: Sample) => {
-            return {
-              x: new Date(sample.time).getTime(),
-              y: sample.value
-            }
-          });
-          this.chartData = [{
-            label: sensor.sensor,
-            fill: false,
-            lineTension: 0,
-            borderWidth: 1,
-            pointRadius: 0,
-            pointHitRadius: 2,
-            data: xyData
-          }];
-          this.sensor = sensor
+          this.sensor = sensor;
+          this.onLastDay();
         })
         .catch(error => this.error = error);
     });
@@ -55,44 +53,39 @@ export class SensorComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  private defaultChartOptions() {
-    return {
-      legend: {
-        display: false
-      },
-      responsive: true,
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            tooltipFormat: 'YYYY-MM-DD hh:mm'
-          }
-        }]
-      }
-    };
-  }
+  private updateChartData(duration: number) {
+    const now = new Date().getTime();
+    const start = now - duration;
 
-  private updateTimeRange(duration: number) {
-    const now = new Date();
-    let newChartOptions = this.defaultChartOptions();
-    newChartOptions.scales.xAxes[0].time['min'] = new Date(now.getTime() - duration);
-    newChartOptions.scales.xAxes[0].time['max'] = now;
-    this.chartOptions = newChartOptions;
+    // Convert to x/y data
+    const xyData = this.sensor.samples.map((sample: Sample) => {
+      return {
+        x: new Date(sample.time).getTime(),
+        y: sample.value
+      }
+    }).filter((point) => {
+      return point.x >= start && point.x <= now;
+    });
+    this.chartData = [{
+      label: this.sensor.sensor,
+      fill: false,
+      lineTension: 0,
+      borderWidth: 1,
+      pointRadius: 0,
+      pointHitRadius: 2,
+      data: xyData
+    }];
   }
 
   onLastDay() {
-    this.updateTimeRange(1000 * 60 * 60 * 24);
+    this.updateChartData(1000 * 60 * 60 * 24);
   }
 
   onLastWeek() {
-    this.updateTimeRange(1000 * 60 * 60 * 24 * 7);
+    this.updateChartData(1000 * 60 * 60 * 24 * 7);
   }
 
   onLastMonth() {
-    this.updateTimeRange(1000 * 60 * 60 * 24 * 30);
-  }
-
-  onAllTime() {
-    this.chartOptions = this.defaultChartOptions();
+    this.updateChartData(1000 * 60 * 60 * 24 * 30);
   }
 }
