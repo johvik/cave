@@ -1,9 +1,6 @@
 import {
-  it,
   inject,
-  describe,
-  beforeEachProviders,
-  expect
+  addProviders
 } from '@angular/core/testing';
 import { provide } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -15,11 +12,13 @@ import { MockSensorsService } from '../../services/mock-sensors.service';
 class MockActivatedRoute { }
 
 describe('Sensor', () => {
-  beforeEachProviders(() => [
-    SensorComponent,
-    provide(SensorsService, { useClass: MockSensorsService }),
-    provide(ActivatedRoute, { useClass: MockActivatedRoute })
-  ]);
+  beforeEach(() => {
+    addProviders([
+      SensorComponent,
+      provide(SensorsService, { useClass: MockSensorsService }),
+      provide(ActivatedRoute, { useClass: MockActivatedRoute })
+    ]);
+  });
   it('should work', inject([SensorComponent], (sensor: SensorComponent) => {
     // Add real test here
     expect(2).toBe(2);

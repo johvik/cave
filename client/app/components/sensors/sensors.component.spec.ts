@@ -1,9 +1,6 @@
 import {
-  it,
   inject,
-  describe,
-  beforeEachProviders,
-  expect
+  addProviders
 } from '@angular/core/testing';
 import { provide } from '@angular/core';
 import { SensorsComponent } from './sensors.component';
@@ -12,10 +9,12 @@ import { SensorsService } from '../../services/sensors.service';
 import { MockSensorsService } from '../../services/mock-sensors.service';
 
 describe('Sensors', () => {
-  beforeEachProviders(() => [
-    SensorsComponent,
-    provide(SensorsService, { useClass: MockSensorsService })
-  ]);
+  beforeEach(() => {
+    addProviders([
+      SensorsComponent,
+      provide(SensorsService, { useClass: MockSensorsService })
+    ]);
+  });
   it('should work', inject([SensorsComponent], (sensors: SensorsComponent) => {
     // Add real test here
     expect(2).toBe(2);
