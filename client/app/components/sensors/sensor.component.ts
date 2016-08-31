@@ -65,6 +65,10 @@ export class SensorComponent implements OnInit, OnDestroy {
       }
     }).filter((point) => {
       return point.x >= start && point.x <= now;
+    }).filter((point, index, array) => {
+      // Remove points where the previous and next are equal to current
+      return index <= 0 || index + 1 >= array.length ||
+        array[index - 1].y != point.y || point.y != array[index + 1].y;
     });
     this.chartData = [{
       label: this.sensor.sensor,
