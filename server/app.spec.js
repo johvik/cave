@@ -14,10 +14,10 @@ function setSensorData(done) {
       name: 'Some name',
       samples: [{
         value: 1.1,
-        time: new Date(50)
+        time: 50
       }, {
         value: -5.0,
-        time: new Date(10000)
+        time: 10000
       }]
     }).save(done);
   });
@@ -65,10 +65,10 @@ describe('GET /api/sensor/:id', () => {
       sensor: 'temperature',
       samples: [{
         value: 1.1,
-        time: new Date(50).toISOString()
+        time: 50
       }, {
         value: -5,
-        time: new Date(10000).toISOString()
+        time: 10000
       }]
     }, done);
   });

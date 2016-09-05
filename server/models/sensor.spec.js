@@ -40,7 +40,7 @@ describe('Sensor Model', () => {
       expect(sensor.samples).to.have.length(1);
       expect(sensor.samples[0]).to.have.property('value', 42.0);
       expect(sensor.samples[0]).to.have.property('time');
-      expect(sensor.samples[0].time).to.be.a('Date');
+      expect(sensor.samples[0].time).to.be.a('Number');
       done();
     });
   });

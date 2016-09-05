@@ -7,7 +7,7 @@ const sampleSchema = mongoose.Schema({
     required: true
   },
   time: {
-    type: Date,
+    type: Number,
     default: Date.now
   }
 });

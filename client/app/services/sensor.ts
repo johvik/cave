@@ -1,6 +1,6 @@
 export class Sample {
   value: number;
-  time: string;
+  time: number;
 }
 
 export class Sensor {

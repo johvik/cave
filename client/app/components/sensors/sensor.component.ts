@@ -60,7 +60,7 @@ export class SensorComponent implements OnInit, OnDestroy {
     // Convert to x/y data
     const xyData = this.sensor.samples.map((sample: Sample) => {
       return {
-        x: new Date(sample.time).getTime(),
+        x: sample.time,
         y: sample.value
       }
     }).filter((point) => {
