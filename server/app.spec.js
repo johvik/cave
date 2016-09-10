@@ -102,7 +102,7 @@ describe('POST /api/sensor', () => {
   });
 
   it('should add to existing', (done) => {
-    request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=99.9').expect(200, () => {
+    request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=-5.00').expect(200, () => {
       Sensor.findOne({
         _id: '000000000000000000000000'
       }, (err, sensor) => {
@@ -110,8 +110,78 @@ describe('POST /api/sensor', () => {
         expect(sensor.key).to.equal('1234567890abcdef');
         expect(sensor.sensor).to.equal('temperature');
         expect(sensor.samples).to.have.length(3);
-        expect(sensor.samples[2]).to.have.property('value', 99.9);
+        expect(sensor.samples[2]).to.have.property('value', -5.0);
         done();
+      });
+    });
+  });
+
+  it('should remove middle sample', (done) => {
+    Sensor.findOne({
+      _id: '000000000000000000000000'
+    }, (err1, before) => {
+      expect(err1).to.be.null;
+      request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=-5.00').expect(200, () => {
+        Sensor.findOne({
+          _id: '000000000000000000000000'
+        }, (err2, sensor) => {
+          expect(err2).to.be.null;
+          expect(sensor.key).to.equal('1234567890abcdef');
+          expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.samples).to.have.length(3);
+          expect(sensor.samples[2]).to.have.property('value', -5.0);
+          expect(sensor.samples[2].time).to.not.equal(before.samples[2].time);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('empty DB', () => {
+    before((done) => {
+      Sensor.remove({}, done);
+    });
+
+    it('should create a new one', (done) => {
+      request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=99').expect(200, () => {
+        Sensor.findOne({}, (err, sensor) => {
+          expect(err).to.be.null;
+          expect(sensor.key).to.equal('1234567890abcdef');
+          expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.samples).to.have.length(1);
+          expect(sensor.samples[0]).to.have.property('value', 99);
+          done();
+        });
+      });
+    });
+
+    it('should add to existing', (done) => {
+      request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=99').expect(200, () => {
+        Sensor.findOne({}, (err, sensor) => {
+          expect(err).to.be.null;
+          expect(sensor.key).to.equal('1234567890abcdef');
+          expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.samples).to.have.length(2);
+          expect(sensor.samples[1]).to.have.property('value', 99);
+          done();
+        });
+      });
+    });
+
+    it('should remove middle sample', (done) => {
+      Sensor.findOne({}, (err1, before) => {
+        expect(err1).to.be.null;
+        request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=99').expect(200, () => {
+          Sensor.findOne({}, (err2, sensor) => {
+            expect(err2).to.be.null;
+            expect(sensor.key).to.equal('1234567890abcdef');
+            expect(sensor.sensor).to.equal('temperature');
+            expect(sensor.samples).to.have.length(2);
+            expect(sensor.samples[1]).to.have.property('value', 99);
+            expect(sensor.samples[1].time).to.not.equal(before.samples[1].time);
+            done();
+          });
+        });
       });
     });
   });

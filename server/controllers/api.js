@@ -29,6 +29,37 @@ exports.getSensor = (req, res) => {
     });
 };
 
+/*
+ * Removes the last sample for the sensor if the last two values equals to value
+ */
+function removeLastIfEqual(key, sensor, value, done) {
+  Sensor.findOne({
+    key: key,
+    sensor: sensor
+  }, {
+    samples: {
+      $slice: -2
+    }
+  }, (error, doc) => {
+    if (error) {
+      return done();
+    }
+    if (doc && doc.samples.length == 2 && doc.samples[0].value == value && doc.samples[1].value == value) {
+      // All three are the same, remove last in the array
+      return Sensor.update({
+        key: key,
+        sensor: sensor
+      }, {
+        $pop: {
+          samples: 1
+        }
+      }, done);
+    } else {
+      return done();
+    }
+  });
+}
+
 exports.postSensor = (req, res) => {
   req.checkBody('key').notEmpty().isHexadecimal();
   const errors = req.validationErrors();
@@ -43,21 +74,23 @@ exports.postSensor = (req, res) => {
     if (!validator.isAlphanumeric(sensor) || !validator.isDecimal(value)) {
       callback('Bad input');
     } else {
-      Sensor.update({
-        key: key,
-        sensor: sensor
-      }, {
-        $push: {
-          samples: {
-            $each: [{
-              value: value
-            }],
-            $slice: -60 * 24 * 30 // One sample / min for one month
+      removeLastIfEqual(key, sensor, value, () => {
+        Sensor.update({
+          key: key,
+          sensor: sensor
+        }, {
+          $push: {
+            samples: {
+              $each: [{
+                value: value
+              }],
+              $slice: -60 * 24 * 30 // One sample / min for one month
+            }
           }
-        }
-      }, {
-        upsert: true
-      }, callback);
+        }, {
+          upsert: true
+        }, callback);
+      });
     }
   }, (err) => {
     if (err) {
