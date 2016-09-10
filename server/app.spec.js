@@ -5,6 +5,8 @@ const app = require('./app.js');
 const Sensor = require('./models/sensor');
 const mongoose = require('mongoose');
 
+const now = Date.now()
+
 function setSensorData(done) {
   Sensor.remove({}, () => {
     new Sensor({
@@ -13,11 +15,20 @@ function setSensorData(done) {
       sensor: 'temperature',
       name: 'Some name',
       samples: [{
-        value: 1.1,
+        value: 0.1,
+        time: 10
+      }, {
+        value: 2.1,
         time: 50
       }, {
-        value: -5.0,
+        value: 1.5,
         time: 10000
+      }, {
+        value: 1.1,
+        time: now - 1000
+      }, {
+        value: -5.0,
+        time: now - 50
       }]
     }).save(done);
   });
@@ -64,11 +75,20 @@ describe('GET /api/sensor/:id', () => {
       name: 'Some name',
       sensor: 'temperature',
       samples: [{
-        value: 1.1,
+        value: 0.1,
+        time: 10
+      }, {
+        value: 2.1,
         time: 50
       }, {
-        value: -5,
+        value: 1.5,
         time: 10000
+      }, {
+        value: 1.1,
+        time: now - 1000
+      }, {
+        value: -5,
+        time: now - 50
       }]
     }, done);
   });
@@ -101,7 +121,7 @@ describe('POST /api/sensor', () => {
     request(app).post('/api/sensor').send('key=0').expect(200, done);
   });
 
-  it('should add to existing', (done) => {
+  it('should add to existing and remove oldest', (done) => {
     request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=-5.00').expect(200, () => {
       Sensor.findOne({
         _id: '000000000000000000000000'
@@ -109,14 +129,16 @@ describe('POST /api/sensor', () => {
         expect(err).to.be.null;
         expect(sensor.key).to.equal('1234567890abcdef');
         expect(sensor.sensor).to.equal('temperature');
-        expect(sensor.samples).to.have.length(3);
-        expect(sensor.samples[2]).to.have.property('value', -5.0);
+        expect(sensor.samples[0].value).to.equal(2.1);
+        expect(sensor.samples[0].time).to.equal(50);
+        expect(sensor.samples).to.have.length(5);
+        expect(sensor.samples[sensor.samples.length - 1]).to.have.property('value', -5.0);
         done();
       });
     });
   });
 
-  it('should remove middle sample', (done) => {
+  it('should remove middle sample and remove oldest', (done) => {
     Sensor.findOne({
       _id: '000000000000000000000000'
     }, (err1, before) => {
@@ -128,11 +150,30 @@ describe('POST /api/sensor', () => {
           expect(err2).to.be.null;
           expect(sensor.key).to.equal('1234567890abcdef');
           expect(sensor.sensor).to.equal('temperature');
-          expect(sensor.samples).to.have.length(3);
-          expect(sensor.samples[2]).to.have.property('value', -5.0);
-          expect(sensor.samples[2].time).to.not.equal(before.samples[2].time);
+          expect(sensor.samples[0].value).to.equal(1.5);
+          expect(sensor.samples[0].time).to.equal(10000);
+          expect(sensor.samples).to.have.length(4);
+          expect(sensor.samples[sensor.samples.length - 1]).to.have.property('value', -5.0);
+          expect(sensor.samples[sensor.samples.length - 1].time).to.not.equal(before.samples[before.samples.length - 1].time);
           done();
         });
+      });
+    });
+  });
+
+  it('should add to existing and but not remove oldest', (done) => {
+    request(app).post('/api/sensor').send('key=1234567890abcdef').send('temperature=10.00').expect(200, () => {
+      Sensor.findOne({
+        _id: '000000000000000000000000'
+      }, (err, sensor) => {
+        expect(err).to.be.null;
+        expect(sensor.key).to.equal('1234567890abcdef');
+        expect(sensor.sensor).to.equal('temperature');
+        expect(sensor.samples[0].value).to.equal(1.5);
+        expect(sensor.samples[0].time).to.equal(10000);
+        expect(sensor.samples).to.have.length(5);
+        expect(sensor.samples[sensor.samples.length - 1]).to.have.property('value', 10);
+        done();
       });
     });
   });

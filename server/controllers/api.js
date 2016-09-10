@@ -2,6 +2,7 @@
 const Sensor = require('../models/sensor');
 const validator = require('validator');
 const async = require('async');
+const ms = require('ms');
 
 exports.getSensors = (req, res) => {
   Sensor.find()
@@ -60,6 +61,40 @@ function removeLastIfEqual(key, sensor, value, done) {
   });
 }
 
+/*
+ * Remove the first sample if the first two are too old.
+ */
+function removeOldSamples(key, sensor, done) {
+  Sensor.findOne({
+    key: key,
+    sensor: sensor
+  }, {
+    samples: {
+      $slice: 2
+    }
+  }, (error, doc) => {
+    if (error) {
+      return done();
+    }
+    const limit = Date.now() - ms('30 days');
+    if (doc && doc.samples.length == 2 && doc.samples[1].time <= limit) {
+      // Last two are too old, remove first in the array
+      // Does not remove both since we always want to cover the entire limit
+      // (consider the case where multiple values are equal and removed)
+      return Sensor.update({
+        key: key,
+        sensor: sensor
+      }, {
+        $pop: {
+          samples: -1
+        }
+      }, done);
+    } else {
+      return done();
+    }
+  });
+}
+
 exports.postSensor = (req, res) => {
   req.checkBody('key').notEmpty().isHexadecimal();
   const errors = req.validationErrors();
@@ -74,22 +109,21 @@ exports.postSensor = (req, res) => {
     if (!validator.isAlphanumeric(sensor) || !validator.isDecimal(value)) {
       callback('Bad input');
     } else {
-      removeLastIfEqual(key, sensor, value, () => {
-        Sensor.update({
-          key: key,
-          sensor: sensor
-        }, {
-          $push: {
-            samples: {
-              $each: [{
+      removeOldSamples(key, sensor, () => {
+        removeLastIfEqual(key, sensor, value, () => {
+          Sensor.update({
+            key: key,
+            sensor: sensor
+          }, {
+            $push: {
+              samples: {
                 value: value
-              }],
-              $slice: -60 * 24 * 30 // One sample / min for one month
+              }
             }
-          }
-        }, {
-          upsert: true
-        }, callback);
+          }, {
+            upsert: true
+          }, callback);
+        });
       });
     }
   }, (err) => {
