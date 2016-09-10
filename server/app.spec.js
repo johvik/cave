@@ -129,6 +129,7 @@ describe('POST /api/sensor', () => {
         expect(err).to.be.null;
         expect(sensor.key).to.equal('1234567890abcdef');
         expect(sensor.sensor).to.equal('temperature');
+        expect(sensor.name).to.equal('Some name');
         expect(sensor.samples[0].value).to.equal(2.1);
         expect(sensor.samples[0].time).to.equal(50);
         expect(sensor.samples).to.have.length(5);
@@ -150,6 +151,7 @@ describe('POST /api/sensor', () => {
           expect(err2).to.be.null;
           expect(sensor.key).to.equal('1234567890abcdef');
           expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.name).to.equal('Some name');
           expect(sensor.samples[0].value).to.equal(1.5);
           expect(sensor.samples[0].time).to.equal(10000);
           expect(sensor.samples).to.have.length(4);
@@ -169,6 +171,7 @@ describe('POST /api/sensor', () => {
         expect(err).to.be.null;
         expect(sensor.key).to.equal('1234567890abcdef');
         expect(sensor.sensor).to.equal('temperature');
+        expect(sensor.name).to.equal('Some name');
         expect(sensor.samples[0].value).to.equal(1.5);
         expect(sensor.samples[0].time).to.equal(10000);
         expect(sensor.samples).to.have.length(5);
@@ -189,6 +192,7 @@ describe('POST /api/sensor', () => {
           expect(err).to.be.null;
           expect(sensor.key).to.equal('1234567890abcdef');
           expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.name).to.equal('Unknown');
           expect(sensor.samples).to.have.length(1);
           expect(sensor.samples[0]).to.have.property('value', 99);
           done();
@@ -202,6 +206,7 @@ describe('POST /api/sensor', () => {
           expect(err).to.be.null;
           expect(sensor.key).to.equal('1234567890abcdef');
           expect(sensor.sensor).to.equal('temperature');
+          expect(sensor.name).to.equal('Unknown');
           expect(sensor.samples).to.have.length(2);
           expect(sensor.samples[1]).to.have.property('value', 99);
           done();
@@ -217,6 +222,7 @@ describe('POST /api/sensor', () => {
             expect(err2).to.be.null;
             expect(sensor.key).to.equal('1234567890abcdef');
             expect(sensor.sensor).to.equal('temperature');
+            expect(sensor.name).to.equal('Unknown');
             expect(sensor.samples).to.have.length(2);
             expect(sensor.samples[1]).to.have.property('value', 99);
             expect(sensor.samples[1].time).to.not.equal(before.samples[1].time);
