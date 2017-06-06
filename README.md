@@ -3,3 +3,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/johvik/cave/badge.svg?branch=master)](https://coveralls.io/github/johvik/cave?branch=master)
 [![Dependency Status](https://david-dm.org/johvik/cave.svg)](https://david-dm.org/johvik/cave)
 [![devDependency Status](https://david-dm.org/johvik/cave/dev-status.svg)](https://david-dm.org/johvik/cave#info=devDependencies)
+
+To get started:
+* Install mongodb
+* cp .env.example .env
+* npm install
+* npm run build:dev
+* node index.js
