@@ -60,7 +60,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "./node_modules/.bin/karma start && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test": "./node_modules/.bin/karma start && ./node_modules/.bin/istanbul cover -x \"**/*.spec.js\" ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "postinstall": "./node_modules/.bin/typings install",
     "build": "./node_modules/.bin/rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "build:dev": "./node_modules/.bin/rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail"
