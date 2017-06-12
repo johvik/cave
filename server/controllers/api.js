@@ -7,7 +7,7 @@ const ms = require('ms');
 exports.getSensors = (req, res) => {
   Sensor.find()
     .select('_id name sensor')
-    .sort({name: 1, _id: 1})
+    .sort({name: 1, sensor: 1, _id: 1})
     .lean()
     .exec((err, sensors) => {
       if (err) {
