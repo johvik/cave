@@ -30,7 +30,18 @@ function setSensorData(done) {
         value: -5.0,
         time: now - 50
       }]
-    }).save(done);
+    }).save((err) => {
+      if (err) {
+        return done(err);
+      }
+      new Sensor({
+        _id: mongoose.Types.ObjectId('000000000000000000000001'),
+        key: '1234567890abcdee',
+        sensor: 'temperature',
+        name: 'First name',
+        samples: []
+      }).save(done);
+    });
   });
 }
 
@@ -54,6 +65,10 @@ describe('GET /api/sensor', () => {
 
     it('should be one', (done) => {
       request(app).get('/api/sensor').expect('Content-Type', /json/).expect(200, [{
+        _id: '000000000000000000000001',
+        name: 'First name',
+        sensor: 'temperature'
+      }, {
         _id: '000000000000000000000000',
         name: 'Some name',
         sensor: 'temperature'
