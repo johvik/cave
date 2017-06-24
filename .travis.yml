@@ -3,12 +3,16 @@ node_js:
   - "6"
 services:
   - mongodb
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 before_script:
   - touch .env
   - npm install -g @angular/cli
   - npm run build
 script:
-  - npm run lint
-  - npm run test
-  - npm run e2e
+  - ng lint
+  - ng test --single-run
+  - ng e2e
   - npm run test:server
