@@ -1,21 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CHART_DIRECTIVES } from 'ng2-charts/ng2-charts';
-
-import { Sensor, Sample } from '../../services/sensor';
-import { SensorsService } from '../../services/sensors.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
+import { SensorService } from './../shared/sensor/sensor.service';
+import { Sensor, Sample } from './../shared/sensor/sensor.model';
 
 @Component({
-  selector: 'sensors',
-  template: require('./sensor.component.html'),
-  directives: [CHART_DIRECTIVES],
-  providers: [SensorsService]
+  selector: 'app-sensor',
+  templateUrl: 'sensor.component.html'
 })
 
 export class SensorComponent implements OnInit, OnDestroy {
   sensor: Sensor;
   error: any;
-  private sub: any;
+  private routeStateChanged: Subscription;
   chartOptions: any = {
     legend: {
       display: false
@@ -30,27 +28,21 @@ export class SensorComponent implements OnInit, OnDestroy {
       }]
     }
   };
-  chartType: string = 'line';
+  chartType = 'line';
   chartData: any[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private sensorsService: SensorsService) { }
+  constructor(private route: ActivatedRoute, private sensorService: SensorService) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      let id = params['id'];
-      this.sensorsService.getSensor(id)
-        .then(sensor => {
-          this.sensor = sensor;
-          this.onLastDay();
-        })
-        .catch(error => this.error = error);
-    });
+    this.routeStateChanged = this.route.params.switchMap((params: Params) =>
+      this.sensorService.getSensor(params['id'])).subscribe(sensor => {
+        this.sensor = sensor;
+        this.onLastDay();
+    }, error => this.error = error);
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.routeStateChanged.unsubscribe();
   }
 
   private updateChartData(duration: number) {

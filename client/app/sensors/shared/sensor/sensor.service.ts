@@ -3,28 +3,27 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Sensor } from './sensor';
+import { Sensor } from './sensor.model';
 
 @Injectable()
-export class SensorsService {
-  private sensorsUrl = 'api/sensor'
+export class SensorService {
+  private sensorsUrl = 'api/sensor';
 
   constructor(private http: Http) { }
 
-  getSensors() {
+  getSensors(): Promise<Sensor[]> {
     return this.http.get(this.sensorsUrl)
       .toPromise()
-      .then(response => response.json())
+      .then(response => response.json() as Sensor[])
       .catch((error) => {
         console.error('An error occurred', error);
         return Promise.reject('Failed to load sensors.');
       });
   }
-
-  getSensor(id: string) {
+  getSensor(id: string): Promise<Sensor> {
     return this.http.get(this.sensorsUrl + '/' + id)
       .toPromise()
-      .then(response => response.json())
+      .then(response => response.json() as Sensor)
       .catch((error) => {
         console.error('An error occurred', error);
         return Promise.reject('Failed to load sensor.');

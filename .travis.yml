@@ -5,4 +5,10 @@ services:
   - mongodb
 before_script:
   - touch .env
+  - npm install -g @angular/cli
   - npm run build
+script:
+  - npm run lint
+  - npm run test
+  - npm run e2e
+  - npm run test:server

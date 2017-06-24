@@ -6,7 +6,8 @@
 
 To get started:
 * Install mongodb
-* cp .env.example .env
-* npm install
-* npm run build:dev
-* node index.js
+* `cp .env.example .env`
+* `npm install -g @angular/cli`
+* `npm install`
+* `ng build`
+* `node index.js`

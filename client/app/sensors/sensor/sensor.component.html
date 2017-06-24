@@ -3,14 +3,14 @@
   <p *ngIf="!sensor && !error">Loading sensor...</p>
   <div *ngIf="sensor">
     <h1>{{sensor.name}} - {{sensor.sensor}}</h1>
-    <p *ngIf="sensor.samples.length <= 1">Not enough data collected to display a chart.</p>
-    <div *ngIf="sensor.samples.length > 1">
+    <p *ngIf="sensor.samples.length <= 1 || chartData[0].data.length <= 1">Not enough data collected to display a chart.</p>
+    <div *ngIf="sensor.samples.length > 1 && chartData[0].data.length > 1">
       <div class="btn-group" role="group" aria-label="Time range">
         <button class="btn btn-default" (click)="onLastDay()">Last day</button>
         <button class="btn btn-default" (click)="onLastWeek()">Last week</button>
         <button class="btn btn-default" (click)="onLastMonth()">Last month</button>
       </div>
-      <base-chart style="display:block;width:100%;" class="media" [datasets]="chartData" [options]="chartOptions" [chartType]="chartType"></base-chart>
+      <canvas baseChart style="display:block;width:100%;" class="media" [datasets]="chartData" [options]="chartOptions" [chartType]="chartType"></canvas>
     </div>
   </div>
 </div>
