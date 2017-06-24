@@ -5,6 +5,10 @@ addons:
   chrome: stable
 services:
   - mongodb
+before_install:
+  - export CHROME_BIN=google-chrome-stable
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 before_script:
   - touch .env
   - npm install -g @angular/cli

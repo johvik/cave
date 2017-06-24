@@ -58,6 +58,7 @@
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
     "chai": "3.5.0",
+    "coveralls": "2.11.12",
     "istanbul": "0.4.4",
     "mocha": "3.0.2",
     "mocha-lcov-reporter": "1.2.0",
