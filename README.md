@@ -9,5 +9,5 @@ To get started:
 * `cp .env.example .env`
 * `npm install -g @angular/cli`
 * `npm install`
-* `ng build`
+* `ng build -prod`
 * `node index.js`
