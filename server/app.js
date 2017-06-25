@@ -16,6 +16,7 @@ const apiController = require('./controllers/api');
 
 const app = express();
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('error', () => {
   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
